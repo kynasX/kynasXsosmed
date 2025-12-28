@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Admin Website - Otomatis</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        :root {
+            --font-family: 'Poppins', sans-serif;
+            --bg-color: #121212;
+            --text-color: #f0f0f0;
+            --card-bg: #1e1e1e;
+            --input-bg: #222;
+            --border-color: #333;
+            --blue: #1DA1F2;
+            --green: #1DB954;
+            --red: #ff4d4d;
+        }
+        body {
+            font-family: var(--font-family);
+            background: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 80px 20px 20px 20px; /* Kasih jarak untuk navbar */
+        }
+        
+        /* --- 1. NAVBAR ADMIN BARU --- */
+        .admin-navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--card-bg);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            box-sizing: border-box;
+        }
+        .admin-navbar h1 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: var(--blue);
+        }
+        /* --- AKHIR NAVBAR --- */
+
+        .container { max-width: 900px; margin: 0 auto; }
+        .section {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+        .form-group { margin-bottom: 15px; }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        .form-group input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            background: var(--input-bg);
+            color: var(--text-color);
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        button:disabled { background: #555; cursor: not-allowed; }
+        .btn { background: var(--blue); color: white; }
+        .btn:hover:not(:disabled) { background: #1a90d9; }
+        .btn-green { background: var(--green); color: white; }
+        .btn-green:hover:not(:disabled) { background: #18a34a; }
+        .btn-red { background: var(--red); color: white; }
+        .btn-red:hover:not(:disabled) { background: #e63939; }
+        #categories-list { list-style: none; padding: 0; }
+        .category-item {
+            background: #2a2a2a;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .category-header h3 { margin: 0; font-size: 1.2rem; }
+        .links-list {
+            list-style: none;
+            padding-left: 15px;
+            border-left: 3px solid var(--blue);
+        }
+        .link-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: var(--input-bg);
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+        .link-item .link-info { font-size: 0.9rem; }
+        .link-item .link-info i { margin-right: 8px; color: var(--blue); }
+        
+        /* --- 2. CSS NOTIFIKASI IPHONE BARU --- */
+        .notification {
+            position: fixed; top: -150px; left: 50%; transform: translateX(-50%);
+            width: 90%;
+            max-width: 320px; 
+            background: rgba(40, 40, 40, 0.9);
+            color: #fff;
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 12px;
+            z-index: 200;
+            transition: top 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .notification.show { top: 20px; }
+        .notification.success { border-left: 5px solid var(--green); }
+        .notification.error { border-left: 5px solid var(--red); }
+
+        /* --- 3. CSS MODAL POPUP (Confirm & Prompt) BARU --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-box {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 340px;
+            text-align: center;
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .modal-overlay.show .modal-box {
+            transform: scale(1);
+        }
+        .modal-box h3 {
+            margin-top: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        .modal-box p {
+            font-size: 0.9rem;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+        .modal-box input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid var(--border-color);
+            background: var(--input-bg);
+            color: var(--text-color);
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            margin-top: 10px;
+        }
+        .modal-button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .modal-button-group button {
+            flex: 1;
+            padding: 10px;
+            margin: 0;
+        }
+        .modal-button-secondary {
+            background: #444;
+            color: white;
+        }
+        .modal-button-secondary:hover { background: #555; }
+        /* --- AKHIR CSS BARU --- */
+
+    </style>
+</head>
+<body>
+
+    <nav class="admin-navbar">
+        <h1>🚀 Admin Panel Otomatis</h1>
+        <button id="logout-btn" class="btn-red"><i class="fas fa-sign-out-alt"></i> Keluar</button>
+    </nav>
+
+    <div id="notification" class="notification">
+        <i id="notif-icon" class="fas fa-check-circle"></i>
+        <span id="notif-message">Notifikasi Sukses!</span>
+    </div>
+
+    <div id="confirm-modal" class="modal-overlay">
+        <div class="modal-box">
+            <h3>Konfirmasi</h3>
+            <p id="confirm-message">Apakah kamu yakin?</p>
+            <div class="modal-button-group">
+                <button id="confirm-btn-no" class="modal-button-secondary">Batal</button>
+                <button id="confirm-btn-yes" class="btn-red">Ya, Yakin</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="prompt-modal" class="modal-overlay">
+        <div class="modal-box">
+            <h3 id="prompt-title">Masukkan Nilai</h3>
+            <input type="text" id="prompt-input">
+            <div class="modal-button-group">
+                <button id="prompt-btn-cancel" class="modal-button-secondary">Batal</button>
+                <button id="prompt-btn-ok" class="btn">OK</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="section">
+            <h2><i class="fas fa-user-edit"></i> Edit Profil & Info</h2>
+            <div class="form-group"><label for="profile-name">Nama</label><input type="text" id="profile-name"></div>
+            <div class="form-group"><label for="profile-bio">Bio</label><input type="text" id="profile-bio"></div>
+            <div class="form-group"><label for="profile-picture">Link Foto Profil</label><input type="text" id="profile-picture"></div>
+            <div class="form-group"><label for="profile-marquee">Teks Berjalan</label><input type="text" id="profile-marquee"></div>
+            <div class="form-group"><label for="profile-background">Link Background Image</label><input type="text" id="profile-background"></div>
+            <div class="form-group"><label for="profile-audio">File MP3</label><input type="text" id="profile-audio"></div>
+        </div>
+        <div class="section">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2><i class="fas fa-link"></i> Edit Link Kategori</h2>
+                <button class="btn" onclick="tambahKategori()"><i class="fas fa-plus"></i> Tambah Kategori</button>
+            </div>
+            <ul id="categories-list"></ul>
+        </div>
+        <div class="section">
+            <h2><i class="fas fa-save"></i> Simpan Perubahan</h2>
+            <p>Klik tombol di bawah untuk **OTOMATIS** menyimpan semua perubahan ke `setting.json` di GitHub.</p>
+            <button class="btn-green" id="simpan-otomatis-btn" style="width: 100%; padding: 15px; font-size: 1.2rem;">
+                <i class="fas fa-save"></i> SIMPAN OTOMATIS KE GITHUB
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. OTENTIKASI ---
+        const authToken = localStorage.getItem('admin_auth_token');
+        if (!authToken) {
+            // Ganti alert dengan notif, tapi karena ini krusial, kita redirect
+            alert("Akses ditolak! Silakan login dulu."); 
+            window.location.href = 'login.html';
+        }
+        
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            localStorage.removeItem('admin_auth_token');
+            showNotif('Berhasil keluar.', 'success');
+            setTimeout(() => window.location.href = 'login.html', 1500);
+        });
+
+        // --- 2. Elemen DOM ---
+        const profileName = document.getElementById('profile-name');
+        const profileBio = document.getElementById('profile-bio');
+        const profilePicture = document.getElementById('profile-picture');
+        const profileMarquee = document.getElementById('profile-marquee');
+        const profileBackground = document.getElementById('profile-background');
+        const profileAudio = document.getElementById('profile-audio');
+        const categoriesList = document.getElementById('categories-list');
+        const simpanBtn = document.getElementById('simpan-otomatis-btn');
+        
+        // --- 3. FUNGSI NOTIFIKASI IPHONE BARU ---
+        
+        // Elemen Notifikasi
+        const notifElement = document.getElementById('notification');
+        const notifIcon = document.getElementById('notif-icon');
+        const notifMessage = document.getElementById('notif-message');
+        
+        // Elemen Modal Confirm
+        const confirmModal = document.getElementById('confirm-modal');
+        const confirmMessage = document.getElementById('confirm-message');
+        const confirmBtnYes = document.getElementById('confirm-btn-yes');
+        const confirmBtnNo = document.getElementById('confirm-btn-no');
+        
+        // Elemen Modal Prompt
+        const promptModal = document.getElementById('prompt-modal');
+        const promptTitle = document.getElementById('prompt-title');
+        const promptInput = document.getElementById('prompt-input');
+        const promptBtnOk = document.getElementById('prompt-btn-ok');
+        const promptBtnCancel = document.getElementById('prompt-btn-cancel');
+        
+        let confirmResolve = null;
+        let promptResolve = null;
+
+        // Fungsi untuk `alert()`
+        function showNotif(message, type = 'success') {
+            notifMessage.textContent = message;
+            notifElement.className = 'notification show'; // Reset
+            notifElement.classList.add(type);
+            
+            if(type === 'success') {
+                notifIcon.className = 'fas fa-check-circle';
+            } else if (type === 'error') {
+                notifIcon.className = 'fas fa-exclamation-triangle';
+            } else {
+                notifIcon.className = 'fas fa-info-circle';
+            }
+            
+            setTimeout(() => {
+                notifElement.classList.remove('show');
+            }, 3000);
+        }
+
+        // Fungsi untuk `confirm()`
+        function showConfirm(message, buttonColor = 'btn-red') {
+            return new Promise(resolve => {
+                confirmMessage.textContent = message;
+                confirmBtnYes.className = buttonColor; // Reset
+                
+                confirmModal.classList.add('show');
+                confirmResolve = resolve;
+            });
+        }
+        
+        // Fungsi untuk `prompt()`
+        function showPrompt(title, defaultValue = '') {
+            return new Promise(resolve => {
+                promptTitle.textContent = title;
+                promptInput.value = defaultValue;
+                promptModal.classList.add('show');
+                promptResolve = resolve;
+                setTimeout(() => promptInput.focus(), 100);
+            });
+        }
+        
+        // Listener untuk tombol-tombol modal
+        confirmBtnYes.onclick = () => {
+            confirmModal.classList.remove('show');
+            if(confirmResolve) confirmResolve(true);
+        };
+        confirmBtnNo.onclick = () => {
+            confirmModal.classList.remove('show');
+            if(confirmResolve) confirmResolve(false);
+        };
+        promptBtnOk.onclick = () => {
+            promptModal.classList.remove('show');
+            if(promptResolve) promptResolve(promptInput.value);
+        };
+        promptBtnCancel.onclick = () => {
+            promptModal.classList.remove('show');
+            if(promptResolve) promptResolve(null);
+        };
+
+        // --- 4. Memuat Data dari API ---
+        async function muatData() {
+            try {
+                const response = await fetch('/api/getSettings'); 
+                if (!response.ok) {
+                    throw new Error('Gagal memuat setting.json. Cek API.');
+                }
+                const data = await response.json();
+                
+                profileName.value = data.profile.name;
+                profileBio.value = data.profile.bio;
+                profilePicture.value = data.profile.picture;
+                profileMarquee.value = data.profile.marquee;
+                profileBackground.value = data.profile.backgroundImage;
+                profileAudio.value = data.audioFile;
+                
+                categoriesList.innerHTML = '';
+                data.categories.forEach((kategori, indexKategori) => {
+                    buatElemenKategori(kategori.title, indexKategori);
+                    kategori.links.forEach((link) => {
+                        buatElemenLink(indexKategori, link.name, link.url, link.icon);
+                    });
+                });
+                showNotif('Data berhasil dimuat!', 'success');
+            } catch (err) {
+                console.error(err);
+                showNotif(err.message, 'error');
+            }
+        }
+        
+        // --- 5. Fungsi Render HTML (Sama) ---
+        function buatElemenKategori(title, indexKategori) {
+            const liKategori = document.createElement('li');
+            liKategori.className = 'category-item';
+            liKategori.dataset.index = indexKategori;
+            liKategori.innerHTML = `
+                <div class="category-header">
+                    <input type="text" class="kategori-title-input" value="${title}" style="width: 60%; background: #333; font-size: 1.2rem; font-weight: 600; padding: 5px; border: 1px solid #444; border-radius: 6px; color: white;">
+                    <div>
+                        <button class="btn" onclick="tambahLink(${indexKategori})"><i class="fas fa-plus"></i> Link</button>
+                        <button class="btn-red" onclick="hapusKategori(this)"><i class="fas fa-trash"></i> Kategori</button>
+                    </div>
+                </div>
+                <ul class="links-list" id="links-list-${indexKategori}"></ul>`;
+            categoriesList.appendChild(liKategori);
+        }
+        function buatElemenLink(indexKategori, name, url, icon) {
+            const listInduk = document.getElementById(`links-list-${indexKategori}`);
+            const liLink = document.createElement('li');
+            liLink.className = 'link-item';
+            liLink.dataset.name = name;
+            liLink.dataset.url = url;
+            liLink.dataset.icon = icon;
+            liLink.innerHTML = `
+                <span class="link-info"><i class="${icon || 'fas fa-link'}"></i> ${name}</span>
+                <div>
+                    <button class="btn" onclick="editLink(this)"><i class="fas fa-edit"></i></button>
+                    <button class="btn-red" onclick="hapusLink(this)"><i class="fas fa-trash"></i></button>
+                </div>`;
+            listInduk.appendChild(liLink);
+        }
+
+        // --- 6. Fungsi Edit (CRUD) - DIUBAH JADI ASYNC ---
+        
+        async function tambahKategori() {
+            // Ganti prompt()
+            const title = await showPrompt("Masukkan nama kategori baru:", "Kategori Baru");
+            if (title) { // Cek jika user klik "OK"
+                const indexBaru = categoriesList.children.length;
+                buatElemenKategori(title, indexBaru);
+                showNotif('Kategori baru ditambahkan!', 'success');
+            }
+        }
+        
+        async function hapusKategori(button) {
+            // Ganti confirm()
+            if (await showConfirm("Yakin mau hapus kategori ini?")) {
+                button.closest('.category-item').remove();
+                showNotif('Kategori dihapus.', 'success');
+            }
+        }
+
+        async function tambahLink(indexKategori) {
+            const name = await showPrompt("Nama Link (misal: Instagram):");
+            if (!name) return;
+            const url = await showPrompt("URL Link (http://googleusercontent.com/...)");
+            if (!url) return;
+            const icon = await showPrompt("Ikon Font Awesome (misal: fab fa-instagram):", "fas fa-link");
+            
+            buatElemenLink(indexKategori, name, url, icon);
+            showNotif('Link baru ditambahkan!', 'success');
+        }
+        
+        async function hapusLink(button) {
+            if (await showConfirm("Yakin mau hapus link ini?")) {
+                button.closest('.link-item').remove();
+                showNotif('Link dihapus.', 'success');
+            }
+        }
+        
+        async function editLink(button) {
+            const liLink = button.closest('.link-item');
+            const nameLama = liLink.dataset.name, urlLama = liLink.dataset.url, iconLama = liLink.dataset.icon;
+
+            const name = await showPrompt("Edit Nama Link:", nameLama);
+            if (!name) return;
+            const url = await showPrompt("Edit URL Link:", urlLama);
+            if (!url) return;
+            const icon = await showPrompt("Edit Ikon Font Awesome:", iconLama);
+            
+            liLink.dataset.name = name; liLink.dataset.url = url; liLink.dataset.icon = icon;
+            liLink.querySelector('.link-info').innerHTML = `<i class="${icon || 'fas fa-link'}"></i> ${name}`;
+            showNotif('Link berhasil diedit!', 'success');
+        }
+
+        // --- 7. Fungsi SIMPAN OTOMATIS (DIUBAH JADI ASYNC) ---
+        simpanBtn.addEventListener('click', async () => {
+            // Ganti confirm()
+            if (await showConfirm("Yakin mau menyimpan data ini ke GitHub?", "btn-green")) {
+                
+                simpanBtn.disabled = true;
+                simpanBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> MENYIMPAN...';
+
+                let dataBaru = {
+                    profile: {
+                        name: profileName.value,
+                        bio: profileBio.value,
+                        picture: profilePicture.value,
+                        marquee: profileMarquee.value,
+                        backgroundImage: profileBackground.value,
+                    },
+                    audioFile: profileAudio.value,
+                    categories: []
+                };
+
+                const semuaKategori = categoriesList.querySelectorAll('.category-item');
+                semuaKategori.forEach(liKategori => {
+                    const kategoriObj = {
+                        title: liKategori.querySelector('.kategori-title-input').value,
+                        links: []
+                    };
+                    const semuaLink = liKategori.querySelectorAll('.link-item');
+                    semuaLink.forEach(liLink => {
+                        kategoriObj.links.push({
+                            name: liLink.dataset.name,
+                            url: liLink.dataset.url,
+                            icon: liLink.dataset.icon
+                        });
+                    });
+                    dataBaru.categories.push(kategoriObj);
+                });
+                
+                try {
+                    const response = await fetch('/api/updateSettings', {
+                        method: 'POST',
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${authToken}` 
+                        },
+                        body: JSON.stringify(dataBaru)
+                    });
+                    
+                    const result = await response.json();
+                    if (!response.ok) { throw new Error(result.message || 'Gagal menyimpan.'); }
+                    
+                    // Ganti alert()
+                    showNotif('SUKSES! Data berhasil disimpan otomatis ke GitHub.', 'success');
+
+                } catch (err) {
+                    console.error(err);
+                    // Ganti alert()
+                    showNotif(err.message, 'error');
+                } finally {
+                    simpanBtn.disabled = false;
+                    simpanBtn.innerHTML = '<i class="fas fa-save"></i> SIMPAN OTOMATIS KE GITHUB';
+                }
+            }
+        });
+
+        // --- 8. Jalankan saat halaman dibuka ---
+        document.addEventListener('DOMContentLoaded', muatData);
+    </script>
+</body>
+</html>
