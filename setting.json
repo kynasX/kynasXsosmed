@@ -1,0 +1,99 @@
+{
+    "profile": {
+        "name": "KYNAS STORE 21",
+        "bio": "Web Developer | Content Creator",
+        "picture": "images.jpg",
+        "marquee": "✨ SELAMAT DATANG DI WEBSITE SAYA SEMOGA HARIMU MENYENANGKAN ✨",
+        "backgroundImage": "https://images.unsplash.com/photo-1494500764479-0c8f2919a3d8?auto=format&fit=crop&q=80&w=2070"
+    },
+    
+    "audioFile": "musik.mp3",
+
+    "categories": [
+        {
+            "title": "Link Nomor",
+            "links": [
+                { 
+                    "name": "Admin WhatsApp 1", 
+                    "url": "https://wa.me/62882006841095", 
+                    "icon": "fab fa-whatsapp" 
+                },
+                { 
+                    "name": "Admin WhatsApp 2", 
+                    "url": "https://wa.me/6281235980179", 
+                    "icon": "fab fa-whatsapp" 
+                },
+                { 
+                    "name": "Admin Telegram", 
+                    "url": "https://t.me/kynasX21", 
+                    "icon": "fab fa-telegram" 
+                }
+            ]
+        },
+        {
+            "title": "Link Sosmed",
+            "links": [
+                { 
+                    "name": "Instagram", 
+                    "url": "https://www.instagram.com/_austin.kynaa?igsh=dG43MG5qeWRxdG81", 
+                    "icon": "fab fa-instagram" 
+                },
+                { 
+                    "name": "TikTok", 
+                    "url": "https://www.tiktok.com/@austin_kynaaa", 
+                    "icon": "fab fa-tiktok" 
+                },
+                { 
+                    "name": "YouTube", 
+                    "url": "https://www.youtube.com/@kynasXstore", 
+                    "icon": "fab fa-youtube" 
+                }
+            ]
+        },
+        {
+            "title": "Link Grup",
+            "links": [
+                { 
+                    "name": "MARKETPLACE || KYNAS </>", 
+                    "url": "https://chat.whatsapp.com/JZALUF5FWyKJ4nGbF68qHN", 
+                    "icon": "fas fa-users" 
+                },
+                { 
+                    "name": "INFO BOT KYNA-AI </>¹", 
+                    "url": "https://chat.whatsapp.com/K8so4nS7O5X2AyItqq9VoC", 
+                    "icon": "fas fa-users" 
+                },
+                { 
+                    "name": "KOMUNITAS HOSTING KYNAS </>²", 
+                    "url": "https://chat.whatsapp.com/HStlnQiKT5zLQqvqy1VqPQ", 
+                    "icon": "fas fa-users" 
+                },
+                { 
+                    "name": "JB ALL GAME KYNAS </>³", 
+                    "url": "https://chat.whatsapp.com/B5wa33p7sl6CgUMeqxzOte", 
+                    "icon": "fas fa-users" 
+                }
+            ]
+        },
+        {
+            "title": "Link Saluran",
+            "links": [
+                { 
+                    "name": "MARKETPLACE  || KYNAS STORE 🛒", 
+                    "url": "https://whatsapp.com/channel/0029VbBD35J72WTyMioIRB44", 
+                    "icon": "fas fa-bullhorn" 
+                },
+                { 
+                    "name": "Rikishopreal Api || Information", 
+                    "url": "https://whatsapp.com/channel/0029VbBD35J72WTyMioIRB44", 
+                    "icon": "fas fa-bullhorn" 
+                },
+                { 
+                    "name": "Testimoni Telegram", 
+                    "url": "https://t.me/kynasXinfo", 
+                    "icon": "fas fa-bullhorn" 
+                }
+            ]
+        }
+    ]
+}
