@@ -49,26 +49,21 @@
             ]
         },
         {
-            "title": "Link Grup",
+            "title": "Link Grup Whatsapp",
             "links": [
                 {
-                    "name": "MARKETPLACE || KYNAS",
-                    "url": "https://chat.whatsapp.com/JZALUF5FWyKJ4nGbF68qHN",
+                    "name": "MARKETPLACE || AUSTIN",
+                    "url": "https://chat.whatsapp.com/Hx3wfPAPh0sKZU6TmPImDj",
                     "icon": "fas fa-users"
                 },
                 {
-                    "name": "INFO BOT KYNA-AI",
+                    "name": "GROUP BOT FREE || AUSTIN",
                     "url": "https://chat.whatsapp.com/K8so4nS7O5X2AyItqq9VoC",
                     "icon": "fas fa-users"
                 },
                 {
-                    "name": "KOMUNITAS HOSTING KYNAS",
-                    "url": "https://chat.whatsapp.com/HStlnQiKT5zLQqvqy1VqPQ",
-                    "icon": "fas fa-users"
-                },
-                {
-                    "name": "JB ALL GAME KYNAS",
-                    "url": "https://chat.whatsapp.com/B5wa33p7sl6CgUMeqxzOte",
+                    "name": "GROUP BEBAS PROMOSI || AUSTIN",
+                    "url": "https://chat.whatsapp.com/EOVo10NMXPkH9WrqS0Jega",
                     "icon": "fas fa-users"
                 }
             ]
@@ -77,13 +72,13 @@
             "title": "Link Saluran",
             "links": [
                 {
-                    "name": "MARKETPLACE  || KYNAS STORE 🛒",
-                    "url": "https://whatsapp.com/channel/0029VbBD35J72WTyMioIRB44",
+                    "name": "AUSTIN STORE OFFICIAL",
+                    "url": "https://whatsapp.com/channel/0029VbAYbLc7tkizhltuyV1b",
                     "icon": "fas fa-bullhorn"
                 },
                 {
-                    "name": "Testimoni Telegram",
-                    "url": "https://t.me/kynasXinfo",
+                    "name": "ALL PRICE JUALAN || AUSTIN",
+                    "url": "https://whatsapp.com/channel/0029VbCVhTCJZg3z80Nlgf3G",
                     "icon": "fas fa-bullhorn"
                 }
             ]
